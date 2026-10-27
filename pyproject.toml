@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "miskatonic-server"
+version = "1.1.0"
+description = "A local-first Flask and SQLite archive for artifacts, investigations, field notes, and sanity scores."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "Flask>=3.1,<4.0",
+]
+keywords = [
+    "archive",
+    "cosmic-horror",
+    "flask",
+    "sqlite",
+]
+classifiers = [
+    "Environment :: Web Environment",
+    "Framework :: Flask",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Database",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
+
+[project.scripts]
+miskatonic-server = "src.app:main"
+
+[tool.setuptools]
+packages = ["src"]
+
+[tool.setuptools.package-data]
+src = [
+    "templates/*.html",
+    "static/*.svg",
+    "static/css/*.css",
+    "static/js/*.js",
+]
