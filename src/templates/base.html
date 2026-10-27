@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#11130f">
+    <meta name="description" content="Miskatonic Server — a private, local archive for strange discoveries and unsettling research.">
+    <title>{% block title %}Miskatonic Server{% endblock %}</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+    <script src="{{ url_for('static', filename='js/form.js') }}" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="masthead">
+      <div class="container nav-row">
+        <a class="brand" href="{{ url_for('index') }}">
+          <span class="brand-seal" aria-hidden="true">M</span>
+          <span><strong>Miskatonic Server</strong><small>University · Special Collections</small></span>
+        </a>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="{{ url_for('index') }}">Archive</a>
+          <a href="{{ url_for('new_entry') }}">New entry</a>
+          <a href="{{ url_for('export_archive') }}">Export</a>
+        </nav>
+      </div>
+    </header>
+    <main class="container page" id="main">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-stack" role="status" aria-live="polite">
+            {% for category, message in messages %}
+              <p class="flash flash-{{ category }}">{{ message }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </main>
+    <footer class="footer">
+      <div class="container footer-row">
+        <span>Curated for the curious. Kept away from the light.</span>
+        <span class="footer-mark">Miskatonic Server · Est. 1690</span>
+      </div>
+    </footer>
+  </body>
+</html>

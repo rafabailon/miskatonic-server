@@ -1,0 +1,1 @@
+"""Miskatonic Server application package."""

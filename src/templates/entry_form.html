@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{% if is_edit %}Revise entry{% else %}New entry{% endif %} — Miskatonic Server{% endblock %}
+{% block content %}
+  <section class="form-page">
+    <a class="back-link" href="{{ url_for('index') }}">← Back to the archive</a>
+    <p class="eyebrow">{% if is_edit %}Amend the record{% else %}Add to the ledger{% endif %}</p>
+    <h1>{% if is_edit %}Revise an entry.{% else %}What did you find?{% endif %}</h1>
+    <p class="form-intro">Keep a clear record. Some details are easier to forget than they should be.</p>
+
+    {% if errors %}
+      <div class="form-errors" role="alert">
+        <p>Please review the following:</p>
+        <ul>{% for error in errors %}<li>{{ error }}</li>{% endfor %}</ul>
+      </div>
+    {% endif %}
+
+    <form class="entry-form" method="post" novalidate>
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token() }}">
+      <div class="field">
+        <label for="title">Entry title</label>
+        <input id="title" name="title" type="text" maxlength="120" required value="{{ entry.title }}" placeholder="A name for this observation">
+        <small>Up to 120 characters.</small>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="category">Record type</label>
+          <select id="category" name="category" required>
+            {% for category in categories %}
+              <option value="{{ category }}" {% if entry.category == category %}selected{% endif %}>{{ category }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="field">
+          <label for="sanity">Current sanity <output id="sanity-value">{{ entry.sanity }}</output></label>
+          <input id="sanity" name="sanity" type="range" min="0" max="100" step="1" value="{{ entry.sanity }}">
+          <small>An entirely subjective measure, from 0 to 100.</small>
+        </div>
+      </div>
+      <div class="field">
+        <label for="content">Field notes</label>
+        <textarea id="content" name="content" rows="9" maxlength="10000" required placeholder="Write what you observed…">{{ entry.content }}</textarea>
+        <small>Up to 10,000 characters. Notes are stored only in the local archive.</small>
+      </div>
+      <div class="form-actions">
+        <button class="button button-primary" type="submit">{% if is_edit %}Save changes{% else %}Preserve this record{% endif %}</button>
+        <a class="button button-quiet" href="{{ url_for('index') }}">Cancel</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}
